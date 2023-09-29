@@ -1,5 +1,5 @@
-package com.lordphiluren.financetracker.models;
+package com.lordphiluren.financetracker.enums;
 
 public enum Currency {
-    RU, USD, EUR, JPY, RMB
+    RUB, USD, EUR, JPY, RMB
 }
