@@ -2,6 +2,7 @@ package com.lordphiluren.financetracker.controllers;
 
 import com.lordphiluren.financetracker.dto.FinanceOperationDTO;
 import com.lordphiluren.financetracker.factory.ModelsDTOFactory;
+import com.lordphiluren.financetracker.models.FinanceOperation;
 import com.lordphiluren.financetracker.services.FinanceOperationsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,17 @@ public class FinanceOperationsController {
 
     @GetMapping("/expenses")
     public List<FinanceOperationDTO> getUserExpenses(@RequestParam(name = "id") int userId) {
-        return financeOperationsService.getAllExpensesByUserId(userId)
+        return financeOperationsService.getAllFinanceOperationsByUserId(userId)
                 .stream()
+                .filter(x -> !x.isIncomeOperation())
+                .map(modelsDTOFactory::makeFinanceOperationDTO)
+                .collect(Collectors.toList());
+    }
+    @GetMapping("/incomes")
+    public List<FinanceOperationDTO> getUserIncomes(@RequestParam(name = "id") int userId) {
+        return financeOperationsService.getAllFinanceOperationsByUserId(userId)
+                .stream()
+                .filter(FinanceOperation::isIncomeOperation)
                 .map(modelsDTOFactory::makeFinanceOperationDTO)
                 .collect(Collectors.toList());
     }

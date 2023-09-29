@@ -20,8 +20,8 @@ public class ModelsDTOFactory {
 
     public FinanceOperationDTO makeFinanceOperationDTO(FinanceOperation financeOperation) {
         FinanceOperationDTO financeOperationDTO = modelMapper.map(financeOperation, FinanceOperationDTO.class);
-//        financeOperationDTO.setCategoryDTO(makeCategoryDTO(financeOperation.getCategory()));
-//        financeOperationDTO.setAccountDTO(makeAccountDTO(financeOperation.getAccount()));
+        financeOperationDTO.setCategoryDTO(makeCategoryDTO(financeOperation.getCategory()));
+        financeOperationDTO.setAccountDTO(makeAccountDTO(financeOperation.getAccount()));
         return financeOperationDTO;
     }
 
