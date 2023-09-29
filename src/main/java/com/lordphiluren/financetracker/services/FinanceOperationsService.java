@@ -17,14 +17,20 @@ public class FinanceOperationsService {
         this.accountsService = accountsService;
     }
 
-    public List<FinanceOperation> getAllFinanceOperationsByUserId(int user_id) {
+    public List<FinanceOperation> getIncomesByUserId(int user_id) {
         List<Account> userAccounts = accountsService.getAccountsByUserId(user_id);
-        List<FinanceOperation> expenses = new ArrayList<>();
-        for (Account userAccount : userAccounts) {
-            expenses.addAll(userAccount.getFinanceOperations()
-                    .stream()
-                    .toList());
-        }
-        return expenses;
+        return userAccounts.stream()
+                .flatMap(userAccount -> userAccount.getFinanceOperations()
+                        .stream()
+                        .filter(FinanceOperation::isIncomeOperation))
+                .collect(Collectors.toList());
+    }
+    public List<FinanceOperation> getExpensesByUserId(int user_id) {
+        List<Account> userAccounts = accountsService.getAccountsByUserId(user_id);
+        return userAccounts.stream()
+                .flatMap(userAccount -> userAccount.getFinanceOperations()
+                        .stream()
+                        .filter(x -> !x.isIncomeOperation()))
+                .collect(Collectors.toList());
     }
 }

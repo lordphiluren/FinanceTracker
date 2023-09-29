@@ -18,9 +18,9 @@ public class FinanceOperationDTO {
 //    private boolean incomeOperation;
     private BigDecimal amount;
     private Date doneAt;
-    @JsonProperty("category")
-    private CategoryDTO categoryDTO;
-    @JsonProperty("account")
-    private AccountDTO accountDTO;
+    @JsonProperty("categoryId")
+    private Long categoryId;
+    @JsonProperty("accountId")
+    private Long accountId;
     private String description;
 }

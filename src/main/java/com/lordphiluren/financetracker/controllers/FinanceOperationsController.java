@@ -25,17 +25,15 @@ public class FinanceOperationsController {
 
     @GetMapping("/expenses")
     public List<FinanceOperationDTO> getUserExpenses(@RequestParam(name = "id") int userId) {
-        return financeOperationsService.getAllFinanceOperationsByUserId(userId)
+        return financeOperationsService.getExpensesByUserId(userId)
                 .stream()
-                .filter(x -> !x.isIncomeOperation())
                 .map(modelsDTOFactory::makeFinanceOperationDTO)
                 .collect(Collectors.toList());
     }
     @GetMapping("/incomes")
     public List<FinanceOperationDTO> getUserIncomes(@RequestParam(name = "id") int userId) {
-        return financeOperationsService.getAllFinanceOperationsByUserId(userId)
+        return financeOperationsService.getIncomesByUserId(userId)
                 .stream()
-                .filter(FinanceOperation::isIncomeOperation)
                 .map(modelsDTOFactory::makeFinanceOperationDTO)
                 .collect(Collectors.toList());
     }
