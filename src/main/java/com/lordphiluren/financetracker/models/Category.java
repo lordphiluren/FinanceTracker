@@ -27,9 +27,13 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<FinanceOperation> financeOperations;
 
-    public Category(String name, boolean incomeCategory, List<FinanceOperation> financeOperations) {
+    @ManyToOne
+    @JoinColumn(name = "creator", referencedColumnName = "id")
+    private User user;
+    public Category(String name, boolean incomeCategory, List<FinanceOperation> financeOperations, User user) {
         this.name = name;
         this.incomeCategory = incomeCategory;
         this.financeOperations = financeOperations;
+        this.user = user;
     }
 }

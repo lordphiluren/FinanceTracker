@@ -1,6 +1,6 @@
 package com.lordphiluren.financetracker.models;
 
-import com.lordphiluren.financetracker.enums.Currency;
+import com.lordphiluren.financetracker.utils.enums.Currency;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;

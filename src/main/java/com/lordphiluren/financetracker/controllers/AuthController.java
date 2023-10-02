@@ -1,2 +1,4 @@
-package com.lordphiluren.financetracker.controllers;public class AuthController {
+package com.lordphiluren.financetracker.controllers;
+
+public class AuthController {
 }
