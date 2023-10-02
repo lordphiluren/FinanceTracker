@@ -1,9 +1,6 @@
 package com.lordphiluren.financetracker.factory;
 
-import com.lordphiluren.financetracker.dto.AccountDTO;
-import com.lordphiluren.financetracker.dto.CategoryDTO;
-import com.lordphiluren.financetracker.dto.FinanceOperationDTO;
-import com.lordphiluren.financetracker.dto.UserDTO;
+import com.lordphiluren.financetracker.dto.*;
 import com.lordphiluren.financetracker.models.Account;
 import com.lordphiluren.financetracker.models.Category;
 import com.lordphiluren.financetracker.models.FinanceOperation;
@@ -52,5 +49,12 @@ public class ModelsDTOFactory {
     }
     public AccountDTO makeAccountDTO(Account account) {
         return  modelMapper.map(account, AccountDTO.class);
+    }
+
+    public User makeUser(AuthDTO authDTO) {
+        return modelMapper.map(authDTO, User.class);
+    }
+    public AuthDTO makeAuthDTO(User user) {
+        return modelMapper.map(user, AuthDTO.class);
     }
 }
