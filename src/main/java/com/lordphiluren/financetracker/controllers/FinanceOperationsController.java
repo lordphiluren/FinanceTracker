@@ -26,14 +26,14 @@ public class FinanceOperationsController {
     }
 
     @GetMapping("/expenses")
-    public List<FinanceOperationDTO> getUserExpenses(@RequestParam(name = "id") int userId) {
+    public List<FinanceOperationDTO> getUserExpenses(@RequestParam(name = "id") long userId) {
         return financeOperationsService.getExpensesByUserId(userId)
                 .stream()
                 .map(modelsDTOFactory::makeFinanceOperationDTO)
                 .collect(Collectors.toList());
     }
     @GetMapping("/incomes")
-    public List<FinanceOperationDTO> getUserIncomes(@RequestParam(name = "id") int userId) {
+    public List<FinanceOperationDTO> getUserIncomes(@RequestParam(name = "id") long userId) {
         return financeOperationsService.getIncomesByUserId(userId)
                 .stream()
                 .map(modelsDTOFactory::makeFinanceOperationDTO)

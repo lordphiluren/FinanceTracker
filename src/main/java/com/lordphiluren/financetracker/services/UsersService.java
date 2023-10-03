@@ -6,6 +6,8 @@ import com.lordphiluren.financetracker.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UsersService {
     private final UsersRepository usersRepository;
@@ -13,8 +15,7 @@ public class UsersService {
     public UsersService(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
     }
-
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         return usersRepository.findById(id).orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 }

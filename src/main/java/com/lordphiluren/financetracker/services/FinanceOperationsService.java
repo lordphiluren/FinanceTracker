@@ -17,7 +17,7 @@ public class FinanceOperationsService {
         this.accountsService = accountsService;
     }
 
-    public List<FinanceOperation> getIncomesByUserId(int user_id) {
+    public List<FinanceOperation> getIncomesByUserId(long user_id) {
         List<Account> userAccounts = accountsService.getAccountsByUserId(user_id);
         return userAccounts.stream()
                 .flatMap(userAccount -> userAccount.getFinanceOperations()
@@ -25,7 +25,7 @@ public class FinanceOperationsService {
                         .filter(FinanceOperation::isIncomeOperation))
                 .collect(Collectors.toList());
     }
-    public List<FinanceOperation> getExpensesByUserId(int user_id) {
+    public List<FinanceOperation> getExpensesByUserId(long user_id) {
         List<Account> userAccounts = accountsService.getAccountsByUserId(user_id);
         return userAccounts.stream()
                 .flatMap(userAccount -> userAccount.getFinanceOperations()

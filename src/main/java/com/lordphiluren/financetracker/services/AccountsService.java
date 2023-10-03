@@ -19,7 +19,7 @@ public class AccountsService {
         this.usersService = usersService;
     }
 
-    public List<Account> getAccountsByUserId(int user_id) {
+    public List<Account> getAccountsByUserId(long user_id) {
         User user = usersService.getUserById(user_id);
         return accountsRepository.findByUser(user);
     }
