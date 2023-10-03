@@ -1,6 +1,6 @@
-package com.lordphiluren.financetracker.controllers;
+package com.lordphiluren.financetracker.rest;
 
-import com.lordphiluren.financetracker.dto.AuthDTO;
+import com.lordphiluren.financetracker.rest.dto.AuthDTO;
 import com.lordphiluren.financetracker.factory.ModelsDTOFactory;
 import com.lordphiluren.financetracker.services.RegistrationService;
 import com.lordphiluren.financetracker.services.UsersService;

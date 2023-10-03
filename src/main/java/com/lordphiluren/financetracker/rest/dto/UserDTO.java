@@ -1,4 +1,4 @@
-package com.lordphiluren.financetracker.dto;
+package com.lordphiluren.financetracker.rest.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthDTO {
+public class UserDTO {
     private String username;
-    private String password;
 }

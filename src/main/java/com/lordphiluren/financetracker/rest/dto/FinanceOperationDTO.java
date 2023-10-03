@@ -1,7 +1,6 @@
-package com.lordphiluren.financetracker.dto;
+package com.lordphiluren.financetracker.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lordphiluren.financetracker.models.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

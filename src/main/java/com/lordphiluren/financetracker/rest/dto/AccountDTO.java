@@ -1,4 +1,4 @@
-package com.lordphiluren.financetracker.dto;
+package com.lordphiluren.financetracker.rest.dto;
 
 import com.lordphiluren.financetracker.utils.enums.Currency;
 import lombok.AllArgsConstructor;

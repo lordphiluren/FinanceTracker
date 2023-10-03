@@ -5,6 +5,7 @@ import com.lordphiluren.financetracker.models.Account;
 import com.lordphiluren.financetracker.models.Category;
 import com.lordphiluren.financetracker.models.FinanceOperation;
 import com.lordphiluren.financetracker.models.User;
+import com.lordphiluren.financetracker.rest.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
