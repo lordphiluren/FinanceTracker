@@ -1,6 +1,5 @@
 package com.lordphiluren.financetracker.factory;
 
-import com.lordphiluren.financetracker.dto.*;
 import com.lordphiluren.financetracker.models.Account;
 import com.lordphiluren.financetracker.models.Category;
 import com.lordphiluren.financetracker.models.FinanceOperation;

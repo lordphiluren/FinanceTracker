@@ -14,8 +14,6 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FinanceOperationDTO {
-//    @JsonProperty("isIncomeOperation")
-//    private boolean incomeOperation;
     private BigDecimal amount;
     private Date doneAt;
     @JsonProperty("category")
