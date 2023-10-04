@@ -20,7 +20,9 @@ public class FinanceOperationsService {
     private final FinanceOperationsRepository financeOperationsRepository;
 
     @Autowired
-    public FinanceOperationsService(AccountsService accountsService, CategoriesService categoriesService, FinanceOperationsRepository financeOperationsRepository) {
+    public FinanceOperationsService(AccountsService accountsService,
+                                    CategoriesService categoriesService,
+                                    FinanceOperationsRepository financeOperationsRepository) {
         this.accountsService = accountsService;
         this.categoriesService = categoriesService;
         this.financeOperationsRepository = financeOperationsRepository;
@@ -46,18 +48,27 @@ public class FinanceOperationsService {
     @Transactional
     public void addExpense(FinanceOperation expense, User user){
         expense.setIncomeOperation(false);
-        Account account = accountsService.getAccountByUserAndName(user, expense.getAccount().getName());
-        Category category = categoriesService.getCategoryByUserAndName(user, expense.getCategory().getName());
+        enrichFinanceOperation(expense, user);
+        Account account = expense.getAccount();
         BigDecimal newBalance = account.getBalance().subtract(expense.getAmount());
         account.setBalance(newBalance);
-        expense.setAccount(account);
-        expense.setCategory(category);
         financeOperationsRepository.save(expense);
     }
     @Transactional
     public void addIncome(FinanceOperation income, User user){
         income.setIncomeOperation(true);
+        enrichFinanceOperation(income, user);
+        Account account = income.getAccount();
+        BigDecimal newBalance = account.getBalance().add(income.getAmount());
+        account.setBalance(newBalance);
         financeOperationsRepository.save(income);
+    }
+
+    private void enrichFinanceOperation(FinanceOperation op, User user) {
+        Account account = accountsService.getAccountByUserAndName(user, op.getAccount().getName());
+        Category category = categoriesService.getCategoryByUserAndName(user, op.getCategory().getName());
+        op.setAccount(account);
+        op.setCategory(category);
     }
 
 }
