@@ -45,10 +45,14 @@ public class ModelsDTOFactory {
     }
 
     public Account makeAccount(AccountDTO accountDTO) {
-        return  modelMapper.map(accountDTO, Account.class);
+        Account account = modelMapper.map(accountDTO, Account.class);
+        account.setUser(makeUser(accountDTO.getUser()));
+        return account;
     }
     public AccountDTO makeAccountDTO(Account account) {
-        return  modelMapper.map(account, AccountDTO.class);
+        AccountDTO accountDTO = modelMapper.map(account, AccountDTO.class);
+        accountDTO.setUser(makeUserDTO(account.getUser()));
+        return accountDTO;
     }
 
     public User makeUser(AuthDTO authDTO) {

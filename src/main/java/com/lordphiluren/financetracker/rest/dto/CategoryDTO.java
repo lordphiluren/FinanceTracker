@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CategoryDTO {
     private String name;
-//    @JsonProperty("user")
-//    private UserDTO userDTO;
+    @JsonProperty("user")
+    private UserDTO userDTO;
 }
