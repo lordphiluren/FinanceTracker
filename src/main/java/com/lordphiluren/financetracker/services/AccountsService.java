@@ -5,6 +5,9 @@ import com.lordphiluren.financetracker.models.User;
 import com.lordphiluren.financetracker.repositories.AccountsRepository;
 import com.lordphiluren.financetracker.utils.exceptions.AccountNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +26,7 @@ public class AccountsService {
         this.usersService = usersService;
     }
     @Transactional
-    public List<Account> getAccountsByUserId(long user_id) {
-        User user = usersService.getUserById(user_id);
+    public List<Account> getAccountsByUser(User user) {
         return accountsRepository.findByUser(user);
     }
     @Transactional
@@ -36,9 +38,25 @@ public class AccountsService {
         return account.get();
     }
     @Transactional
-    public void addUserAccount(Account account, User user) {
-        account.setUser(user);
+    public void addAccount(Account account) {
         account.setFinanceOperations(Collections.emptyList());
         accountsRepository.save(account);
+    }
+    @Transactional
+    public Account getAccountById(long id) {
+        Optional<Account> account = accountsRepository.findById(id);
+        if(account.isEmpty()) {
+            throw new AccountNotFoundException("Account not found");
+        }
+        return account.get();
+    }
+
+    @Transactional
+    public void updateAccount(Account account) {
+        accountsRepository.save(account);
+    }
+    @Transactional
+    public void deleteAccount(long id) {
+        accountsRepository.delete(getAccountById(id));
     }
 }

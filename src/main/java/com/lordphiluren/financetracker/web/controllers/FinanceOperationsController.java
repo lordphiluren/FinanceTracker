@@ -1,18 +1,15 @@
-package com.lordphiluren.financetracker.rest;
+package com.lordphiluren.financetracker.web.controllers;
 
-import com.lordphiluren.financetracker.models.FinanceOperation;
-import com.lordphiluren.financetracker.rest.dto.FinanceOperationDTO;
-import com.lordphiluren.financetracker.factory.ModelsDTOFactory;
+import com.lordphiluren.financetracker.web.dto.FinanceOperationDTO;
+import com.lordphiluren.financetracker.web.mappers.ModelsMapper;
 import com.lordphiluren.financetracker.models.User;
 import com.lordphiluren.financetracker.security.UserDetailsImpl;
 import com.lordphiluren.financetracker.services.FinanceOperationsService;
-import com.lordphiluren.financetracker.utils.exceptions.AccountNotFoundException;
 import com.lordphiluren.financetracker.utils.exceptions.ControllerErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,50 +18,49 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class FinanceOperationsController {
+    //TODO
+    // - validation
+    // - getting specific operation details
+    // - updating operation
+    // - deleting operation
     private final FinanceOperationsService financeOperationsService;
-    private final ModelsDTOFactory modelsDTOFactory;
+    private final ModelsMapper modelsMapper;
     @Autowired
     public FinanceOperationsController(FinanceOperationsService financeOperationsService,
-                                       ModelsDTOFactory modelsDTOFactory) {
+                                       ModelsMapper modelsMapper) {
         this.financeOperationsService = financeOperationsService;
-        this.modelsDTOFactory = modelsDTOFactory;
+        this.modelsMapper = modelsMapper;
     }
-
     @GetMapping("/expenses")
     public List<FinanceOperationDTO> getUserExpenses(@AuthenticationPrincipal UserDetailsImpl userPrincipal) {
         User user = userPrincipal.getUser();
         return financeOperationsService.getUserExpenses(user)
                 .stream()
-                .map(modelsDTOFactory::makeFinanceOperationDTO)
+                .map(modelsMapper::makeFinanceOperationDTO)
                 .collect(Collectors.toList());
     }
-
     @PostMapping("/expenses")
     public ResponseEntity<?> addExpense(@RequestBody FinanceOperationDTO expense,
                                         @AuthenticationPrincipal UserDetailsImpl userPrincipal) {
-        financeOperationsService.addExpense(modelsDTOFactory.makeFinanceOperation(expense),
+        financeOperationsService.addExpense(modelsMapper.makeFinanceOperation(expense),
                 userPrincipal.getUser());
         return ResponseEntity.ok("Expense added successfully");
     }
-
-
     @GetMapping("/incomes")
     public List<FinanceOperationDTO> getUserIncomes(@AuthenticationPrincipal UserDetailsImpl userPrincipal) {
         User user = userPrincipal.getUser();
         return financeOperationsService.getUserIncomes(user)
                 .stream()
-                .map(modelsDTOFactory::makeFinanceOperationDTO)
+                .map(modelsMapper::makeFinanceOperationDTO)
                 .collect(Collectors.toList());
     }
-
     @PostMapping("/incomes")
     public ResponseEntity<?> addIncome(@RequestBody FinanceOperationDTO income,
                                         @AuthenticationPrincipal UserDetailsImpl userPrincipal) {
-        financeOperationsService.addIncome(modelsDTOFactory.makeFinanceOperation(income),
+        financeOperationsService.addIncome(modelsMapper.makeFinanceOperation(income),
                 userPrincipal.getUser());
         return ResponseEntity.ok("Income added successfully");
     }
-
     @ExceptionHandler
     private ResponseEntity<ControllerErrorResponse> handleException(RuntimeException e) {
         ControllerErrorResponse errorResponse = new ControllerErrorResponse(

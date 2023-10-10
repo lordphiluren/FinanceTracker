@@ -1,7 +1,7 @@
-package com.lordphiluren.financetracker.rest.dto;
+package com.lordphiluren.financetracker.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lordphiluren.financetracker.utils.enums.Currency;
+import com.lordphiluren.financetracker.models.enums.Currency;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,9 +14,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDTO {
+    private long id;
     private String name;
     private BigDecimal balance;
     private Currency currency;
-    @JsonProperty("user")
-    private UserDTO user;
 }

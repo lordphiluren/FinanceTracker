@@ -1,7 +1,7 @@
-package com.lordphiluren.financetracker.rest;
+package com.lordphiluren.financetracker.web.controllers;
 
-import com.lordphiluren.financetracker.rest.dto.AuthDTO;
-import com.lordphiluren.financetracker.factory.ModelsDTOFactory;
+import com.lordphiluren.financetracker.web.dto.AuthDTO;
+import com.lordphiluren.financetracker.web.mappers.ModelsMapper;
 import com.lordphiluren.financetracker.services.RegistrationService;
 import com.lordphiluren.financetracker.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/auth")
 public class AuthController {
     private final RegistrationService registrationService;
-    private final ModelsDTOFactory modelsDTOFactory;
+    private final ModelsMapper modelsMapper;
     @Autowired
-    public AuthController(RegistrationService registrationService, ModelsDTOFactory modelsDTOFactory, UsersService usersService) {
+    public AuthController(RegistrationService registrationService, ModelsMapper modelsMapper, UsersService usersService) {
         this.registrationService = registrationService;
-        this.modelsDTOFactory = modelsDTOFactory;
+        this.modelsMapper = modelsMapper;
     }
 
 
     @PostMapping("/registration")
     public ResponseEntity<HttpStatus> performRegistration(@RequestBody AuthDTO authDTO) {
-        registrationService.doRegistration(modelsDTOFactory.makeUser(authDTO));
+        registrationService.doRegistration(modelsMapper.makeUser(authDTO));
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

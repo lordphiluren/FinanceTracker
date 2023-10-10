@@ -30,7 +30,7 @@ public class FinanceOperationsService {
     }
     @Transactional
     public List<FinanceOperation> getUserIncomes(User user) {
-        List<Account> userAccounts = accountsService.getAccountsByUserId(user.getId());
+        List<Account> userAccounts = accountsService.getAccountsByUser(user);
         return userAccounts.stream()
                 .flatMap(userAccount -> userAccount.getFinanceOperations()
                         .stream()
@@ -39,7 +39,7 @@ public class FinanceOperationsService {
     }
     @Transactional
     public List<FinanceOperation> getUserExpenses(User user) {
-        List<Account> userAccounts = accountsService.getAccountsByUserId(user.getId());
+        List<Account> userAccounts = accountsService.getAccountsByUser(user);
         return userAccounts.stream()
                 .flatMap(userAccount -> userAccount.getFinanceOperations()
                         .stream()

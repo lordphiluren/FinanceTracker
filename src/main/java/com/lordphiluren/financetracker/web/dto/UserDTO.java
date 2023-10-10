@@ -1,4 +1,4 @@
-package com.lordphiluren.financetracker.rest.dto;
+package com.lordphiluren.financetracker.web.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
+    private long id;
     private String username;
 }

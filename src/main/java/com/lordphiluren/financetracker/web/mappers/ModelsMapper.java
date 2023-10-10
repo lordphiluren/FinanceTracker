@@ -1,20 +1,19 @@
-package com.lordphiluren.financetracker.factory;
+package com.lordphiluren.financetracker.web.mappers;
 
 import com.lordphiluren.financetracker.models.Account;
 import com.lordphiluren.financetracker.models.Category;
 import com.lordphiluren.financetracker.models.FinanceOperation;
 import com.lordphiluren.financetracker.models.User;
-import com.lordphiluren.financetracker.rest.dto.*;
+import com.lordphiluren.financetracker.web.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-// Factory methods for creating DTOs from Entities and Entities from DTOs
 @Component
-public class ModelsDTOFactory {
+public class ModelsMapper {
     private final ModelMapper modelMapper;
     @Autowired
-    public ModelsDTOFactory(ModelMapper modelMapper) {
+    public ModelsMapper(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
 
@@ -46,12 +45,12 @@ public class ModelsDTOFactory {
 
     public Account makeAccount(AccountDTO accountDTO) {
         Account account = modelMapper.map(accountDTO, Account.class);
-        account.setUser(makeUser(accountDTO.getUser()));
+        //account.setUser(makeUser(accountDTO.getUser()));
         return account;
     }
     public AccountDTO makeAccountDTO(Account account) {
         AccountDTO accountDTO = modelMapper.map(account, AccountDTO.class);
-        accountDTO.setUser(makeUserDTO(account.getUser()));
+       // accountDTO.setUser(makeUserDTO(account.getUser()));
         return accountDTO;
     }
 

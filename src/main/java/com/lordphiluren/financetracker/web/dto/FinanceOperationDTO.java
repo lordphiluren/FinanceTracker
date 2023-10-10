@@ -1,4 +1,4 @@
-package com.lordphiluren.financetracker.rest.dto;
+package com.lordphiluren.financetracker.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -14,6 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FinanceOperationDTO {
+    private long id;
     private BigDecimal amount;
     private Date doneAt;
     @JsonProperty("category")
