@@ -30,7 +30,20 @@ public class CategoriesService {
         return categoriesRepository.findAllByUser(user);
     }
     @Transactional
+    public List<Category> getIncomeCategories(User user) {
+        return categoriesRepository.findAllByUserAndIncomeCategoryTrue(user);
+    }
+    @Transactional
+    public List<Category> getExpenseCategories(User user) {
+        return categoriesRepository.findAllByUserAndIncomeCategoryFalse(user);
+    }
+    @Transactional
     public void addCategory(Category category) {
         categoriesRepository.save(category);
+    }
+    @Transactional
+    public Category getCategoryByName(String name) {
+       return categoriesRepository.findByName(name)
+               .orElseThrow(() -> new CategoryNotFoundException("Category with that name was not found"));
     }
 }

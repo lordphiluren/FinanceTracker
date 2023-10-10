@@ -30,25 +30,13 @@ public class AccountsService {
         return accountsRepository.findByUser(user);
     }
     @Transactional
-    public Account getAccountByUserAndName(long id) {
-        Optional<Account> account = accountsRepository.findById(id);
-        if(account.isEmpty()) {
-            throw new AccountNotFoundException("Account not found");
-        }
-        return account.get();
-    }
-    @Transactional
     public void addAccount(Account account) {
         account.setFinanceOperations(Collections.emptyList());
         accountsRepository.save(account);
     }
     @Transactional
     public Account getAccountById(long id) {
-        Optional<Account> account = accountsRepository.findById(id);
-        if(account.isEmpty()) {
-            throw new AccountNotFoundException("Account not found");
-        }
-        return account.get();
+        return accountsRepository.findById(id).orElseThrow(() -> new AccountNotFoundException("Account not found"));
     }
 
     @Transactional
