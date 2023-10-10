@@ -30,8 +30,8 @@ public class AccountsService {
         return accountsRepository.findByUser(user);
     }
     @Transactional
-    public Account getAccountByUserAndName(User user, String name) {
-        Optional<Account> account = accountsRepository.findByUserAndName(user, name);
+    public Account getAccountByUserAndName(long id) {
+        Optional<Account> account = accountsRepository.findById(id);
         if(account.isEmpty()) {
             throw new AccountNotFoundException("Account not found");
         }

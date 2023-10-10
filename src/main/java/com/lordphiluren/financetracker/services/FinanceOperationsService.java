@@ -47,27 +47,26 @@ public class FinanceOperationsService {
                 .collect(Collectors.toList());
     }
     @Transactional
-    public void addExpense(FinanceOperation expense, User user){
+    public void addExpense(FinanceOperation expense){
         expense.setIncomeOperation(false);
-        enrichFinanceOperation(expense, user);
+        enrichFinanceOperation(expense);
         Account account = expense.getAccount();
         BigDecimal newBalance = account.getBalance().subtract(expense.getAmount());
         account.setBalance(newBalance);
         financeOperationsRepository.save(expense);
     }
     @Transactional
-    public void addIncome(FinanceOperation income, User user){
+    public void addIncome(FinanceOperation income){
         income.setIncomeOperation(true);
-        enrichFinanceOperation(income, user);
+        enrichFinanceOperation(income);
         Account account = income.getAccount();
         BigDecimal newBalance = account.getBalance().add(income.getAmount());
         account.setBalance(newBalance);
         financeOperationsRepository.save(income);
     }
-
-    private void enrichFinanceOperation(FinanceOperation op, User user) {
-        Account account = accountsService.getAccountByUserAndName(user, op.getAccount().getName());
-        Category category = categoriesService.getCategoryByUserAndName(user, op.getCategory().getName());
+    private void enrichFinanceOperation(FinanceOperation op) {
+        Account account = accountsService.getAccountById(op.getAccount().getId());
+        Category category = categoriesService.getCategoryById(op.getCategory().getId());
         op.setAccount(account);
         op.setCategory(category);
     }

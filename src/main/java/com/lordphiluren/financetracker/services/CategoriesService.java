@@ -17,8 +17,8 @@ public class CategoriesService {
         this.categoriesRepository = categoriesRepository;
     }
 
-    public Category getCategoryByUserAndName(User user, String name) {
-        Optional<Category> category = categoriesRepository.findByUserAndName(user, name);
+    public Category getCategoryById(long id) {
+        Optional<Category> category = categoriesRepository.findById(id);
         if(category.isEmpty())
             throw new CategoryNotFoundException("Category not found");
         return category.get();

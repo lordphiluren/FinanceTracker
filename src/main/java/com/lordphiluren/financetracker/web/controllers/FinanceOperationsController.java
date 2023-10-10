@@ -40,10 +40,8 @@ public class FinanceOperationsController {
                 .collect(Collectors.toList());
     }
     @PostMapping("/expenses")
-    public ResponseEntity<?> addExpense(@RequestBody FinanceOperationDTO expense,
-                                        @AuthenticationPrincipal UserDetailsImpl userPrincipal) {
-        financeOperationsService.addExpense(modelsMapper.makeFinanceOperation(expense),
-                userPrincipal.getUser());
+    public ResponseEntity<?> addExpense(@RequestBody FinanceOperationDTO expense) {
+        financeOperationsService.addExpense(modelsMapper.makeFinanceOperation(expense));
         return ResponseEntity.ok("Expense added successfully");
     }
     @GetMapping("/incomes")
@@ -55,10 +53,8 @@ public class FinanceOperationsController {
                 .collect(Collectors.toList());
     }
     @PostMapping("/incomes")
-    public ResponseEntity<?> addIncome(@RequestBody FinanceOperationDTO income,
-                                        @AuthenticationPrincipal UserDetailsImpl userPrincipal) {
-        financeOperationsService.addIncome(modelsMapper.makeFinanceOperation(income),
-                userPrincipal.getUser());
+    public ResponseEntity<?> addIncome(@RequestBody FinanceOperationDTO income) {
+        financeOperationsService.addIncome(modelsMapper.makeFinanceOperation(income));
         return ResponseEntity.ok("Income added successfully");
     }
     @ExceptionHandler
