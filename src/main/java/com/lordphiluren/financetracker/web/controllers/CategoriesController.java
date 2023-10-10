@@ -5,6 +5,7 @@ import com.lordphiluren.financetracker.security.UserDetailsImpl;
 import com.lordphiluren.financetracker.services.CategoriesService;
 import com.lordphiluren.financetracker.utils.exceptions.ControllerErrorResponse;
 import com.lordphiluren.financetracker.web.dto.CategoryDTO;
+import com.lordphiluren.financetracker.web.dto.FinanceOperationDTO;
 import com.lordphiluren.financetracker.web.mappers.ModelsMapper;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,6 @@ public class CategoriesController {
         else {
             return new ResponseEntity<>("Invalid value of type parameter", HttpStatus.BAD_REQUEST);
         }
-
     }
     @PostMapping("/{type}")
     public ResponseEntity<?> addCategory(@PathVariable String type,
