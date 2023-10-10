@@ -4,6 +4,8 @@ import com.lordphiluren.financetracker.models.Account;
 import com.lordphiluren.financetracker.models.Category;
 import com.lordphiluren.financetracker.models.FinanceOperation;
 import com.lordphiluren.financetracker.models.User;
+import com.lordphiluren.financetracker.services.AccountsService;
+import com.lordphiluren.financetracker.services.CategoriesService;
 import com.lordphiluren.financetracker.web.dto.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class ModelsMapper {
     private final ModelMapper modelMapper;
+    private final CategoriesService categoriesService;
+    private final AccountsService accountsService;
     @Autowired
-    public ModelsMapper(ModelMapper modelMapper) {
+    public ModelsMapper(ModelMapper modelMapper, CategoriesService categoriesService, AccountsService accountsService) {
         this.modelMapper = modelMapper;
+        this.categoriesService = categoriesService;
+        this.accountsService = accountsService;
     }
 
     public FinanceOperationDTO makeFinanceOperationDTO(FinanceOperation financeOperation) {
@@ -25,6 +31,12 @@ public class ModelsMapper {
     }
     public FinanceOperation makeFinanceOperation(FinanceOperationDTO financeOperationDTO) {
         return modelMapper.map(financeOperationDTO, FinanceOperation.class);
+    }
+    public FinanceOperation makeFinanceOperation(NewFinanceOperationDTO financeOperationDTO) {
+        FinanceOperation financeOperation = modelMapper.map(financeOperationDTO, FinanceOperation.class);
+        financeOperation.setAccount(accountsService.getAccountById(financeOperationDTO.getAccountId()));
+        financeOperation.setCategory(categoriesService.getCategoryById(financeOperationDTO.getCategoryId()));
+        return financeOperation;
     }
 
     public UserDTO makeUserDTO(User user) {

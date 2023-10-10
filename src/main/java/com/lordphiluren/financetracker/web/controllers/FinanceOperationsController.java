@@ -1,6 +1,7 @@
 package com.lordphiluren.financetracker.web.controllers;
 
 import com.lordphiluren.financetracker.web.dto.FinanceOperationDTO;
+import com.lordphiluren.financetracker.web.dto.NewFinanceOperationDTO;
 import com.lordphiluren.financetracker.web.mappers.ModelsMapper;
 import com.lordphiluren.financetracker.models.User;
 import com.lordphiluren.financetracker.security.UserDetailsImpl;
@@ -18,11 +19,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class FinanceOperationsController {
-    //TODO
-    // - validation
-    // - getting specific operation details
-    // - updating operation
-    // - deleting operation
     private final FinanceOperationsService financeOperationsService;
     private final ModelsMapper modelsMapper;
     @Autowired
@@ -31,31 +27,43 @@ public class FinanceOperationsController {
         this.financeOperationsService = financeOperationsService;
         this.modelsMapper = modelsMapper;
     }
-    @GetMapping("/expenses")
-    public List<FinanceOperationDTO> getUserExpenses(@AuthenticationPrincipal UserDetailsImpl userPrincipal) {
-        User user = userPrincipal.getUser();
-        return financeOperationsService.getUserExpenses(user)
-                .stream()
-                .map(modelsMapper::makeFinanceOperationDTO)
-                .collect(Collectors.toList());
+    @GetMapping("/{type}")
+    public ResponseEntity<?> getUserOperations(@PathVariable String type,
+                                               @AuthenticationPrincipal UserDetailsImpl userPrincipal) {
+        if(type.equals("expenses")) {
+            List<FinanceOperationDTO> financeOperationDTOS = financeOperationsService
+                    .getUserExpenses(userPrincipal.getUser())
+                    .stream()
+                    .map(modelsMapper::makeFinanceOperationDTO)
+                    .toList();
+            return new ResponseEntity<>(financeOperationDTOS, HttpStatus.OK);
+        }
+        if(type.equals("incomes")) {
+            List<FinanceOperationDTO> financeOperationDTOS = financeOperationsService
+                    .getUserIncomes(userPrincipal.getUser())
+                    .stream()
+                    .map(modelsMapper::makeFinanceOperationDTO)
+                    .toList();
+            return new ResponseEntity<>(financeOperationDTOS, HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>("Invalid value of type parameter", HttpStatus.BAD_REQUEST);
+        }
     }
-    @PostMapping("/expenses")
-    public ResponseEntity<?> addExpense(@RequestBody FinanceOperationDTO expense) {
-        financeOperationsService.addExpense(modelsMapper.makeFinanceOperation(expense));
-        return ResponseEntity.ok("Expense added successfully");
-    }
-    @GetMapping("/incomes")
-    public List<FinanceOperationDTO> getUserIncomes(@AuthenticationPrincipal UserDetailsImpl userPrincipal) {
-        User user = userPrincipal.getUser();
-        return financeOperationsService.getUserIncomes(user)
-                .stream()
-                .map(modelsMapper::makeFinanceOperationDTO)
-                .collect(Collectors.toList());
-    }
-    @PostMapping("/incomes")
-    public ResponseEntity<?> addIncome(@RequestBody FinanceOperationDTO income) {
-        financeOperationsService.addIncome(modelsMapper.makeFinanceOperation(income));
-        return ResponseEntity.ok("Income added successfully");
+    @PostMapping("/{type}")
+    public ResponseEntity<?> addFinanceOperation(@RequestBody NewFinanceOperationDTO operationDTO,
+                                                 @PathVariable String type) {
+        if(type.equals("expenses")) {
+            financeOperationsService.addExpense(modelsMapper.makeFinanceOperation(operationDTO));
+            return ResponseEntity.ok("Expense added successfully");
+        }
+        else if(type.equals("incomes")) {
+            financeOperationsService.addIncome(modelsMapper.makeFinanceOperation(operationDTO));
+            return ResponseEntity.ok("Income added successfully");
+        }
+        else {
+            return new ResponseEntity<>("Invalid value of type parameter", HttpStatus.BAD_REQUEST);
+        }
     }
     @ExceptionHandler
     private ResponseEntity<ControllerErrorResponse> handleException(RuntimeException e) {

@@ -22,9 +22,7 @@ public class AuthController {
         this.registrationService = registrationService;
         this.modelsMapper = modelsMapper;
     }
-
-
-    @PostMapping("/registration")
+    @PostMapping("/signup")
     public ResponseEntity<HttpStatus> performRegistration(@RequestBody AuthDTO authDTO) {
         registrationService.doRegistration(modelsMapper.makeUser(authDTO));
         return ResponseEntity.ok(HttpStatus.OK);
