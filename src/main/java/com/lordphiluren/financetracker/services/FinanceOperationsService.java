@@ -70,6 +70,21 @@ public class FinanceOperationsService {
         return financeOperationsRepository.findById(id)
                 .orElseThrow(() -> new FinanceOperationNotFoundException("Operation was not found"));
     }
+    @Transactional
+    public void deleteFinanceOperationById(long id) {
+        Optional<FinanceOperation> financeOperation = financeOperationsRepository.findById(id);
+        if(financeOperation.isEmpty())
+            throw new FinanceOperationNotFoundException("Operation was not found");
+        Account account = financeOperation.get().getAccount();
+        BigDecimal accountBalance = account.getBalance();
+        if(financeOperation.get().isIncomeOperation()) {
+            account.setBalance(accountBalance.subtract(financeOperation.get().getAmount()));
+        }
+        else {
+            account.setBalance(accountBalance.add(financeOperation.get().getAmount()));
+        }
+        financeOperationsRepository.delete(financeOperation.get());
+    }
     private void enrichFinanceOperation(FinanceOperation op) {
         Account account = accountsService.getAccountById(op.getAccount().getId());
         Category category = categoriesService.getCategoryById(op.getCategory().getId());

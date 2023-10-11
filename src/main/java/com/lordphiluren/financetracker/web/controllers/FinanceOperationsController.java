@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.service.annotation.DeleteExchange;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -60,6 +61,16 @@ public class FinanceOperationsController {
     @GetMapping("/incomes/{id}")
     public FinanceOperationDTO getIncomeDetails(@PathVariable long id) {
         return modelsMapper.makeFinanceOperationDTO(financeOperationsService.getFinanceOperationById(id));
+    }
+    @DeleteMapping("/incomes/{id}")
+    public ResponseEntity<?> deleteIncome(@PathVariable long id) {
+        financeOperationsService.deleteFinanceOperationById(id);
+        return ResponseEntity.ok("Income deleted successfully");
+    }
+    @DeleteMapping("/expenses/{id}")
+    public ResponseEntity<?> deleteExpense(@PathVariable long id) {
+        financeOperationsService.deleteFinanceOperationById(id);
+        return ResponseEntity.ok("Expense deleted successfully");
     }
     @ExceptionHandler
     private ResponseEntity<ControllerErrorResponse> handleException(RuntimeException e) {
