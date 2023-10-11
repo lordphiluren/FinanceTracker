@@ -5,6 +5,7 @@ import com.lordphiluren.financetracker.models.Category;
 import com.lordphiluren.financetracker.models.FinanceOperation;
 import com.lordphiluren.financetracker.models.User;
 import com.lordphiluren.financetracker.repositories.FinanceOperationsRepository;
+import com.lordphiluren.financetracker.utils.exceptions.FinanceOperationNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,6 +64,11 @@ public class FinanceOperationsService {
         BigDecimal newBalance = account.getBalance().add(income.getAmount());
         account.setBalance(newBalance);
         financeOperationsRepository.save(income);
+    }
+    @Transactional
+    public FinanceOperation getFinanceOperationById(long id) {
+        return financeOperationsRepository.findById(id)
+                .orElseThrow(() -> new FinanceOperationNotFoundException("Operation was not found"));
     }
     private void enrichFinanceOperation(FinanceOperation op) {
         Account account = accountsService.getAccountById(op.getAccount().getId());

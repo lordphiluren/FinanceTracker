@@ -53,6 +53,14 @@ public class FinanceOperationsController {
         financeOperationsService.addIncome(modelsMapper.makeFinanceOperation(operationDTO));
         return ResponseEntity.ok("Income added successfully");
     }
+    @GetMapping("/expenses/{id}")
+    public FinanceOperationDTO getExpenseDetails(@PathVariable long id) {
+        return modelsMapper.makeFinanceOperationDTO(financeOperationsService.getFinanceOperationById(id));
+    }
+    @GetMapping("/incomes/{id}")
+    public FinanceOperationDTO getIncomeDetails(@PathVariable long id) {
+        return modelsMapper.makeFinanceOperationDTO(financeOperationsService.getFinanceOperationById(id));
+    }
     @ExceptionHandler
     private ResponseEntity<ControllerErrorResponse> handleException(RuntimeException e) {
         ControllerErrorResponse errorResponse = new ControllerErrorResponse(
